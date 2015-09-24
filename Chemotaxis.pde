@@ -6,7 +6,7 @@
  {     
    //initialize bacteria variables here
    size(600,600);
-   colony = new Bacteria [100];
+   colony = new Bacteria [2000];
 
 
    for(int i = 0; i < colony.length; i++)
@@ -17,9 +17,11 @@
  void draw()   
  {    
    //move and show the bacteria
-   background(0,0,0);
+   background(0);
    if(mousePressed)
    {
+   noStroke();
+   fill(255,0,0);
    ellipse(mouseX, mouseY, 20, 20);
    }
    //ellipse(mouseX, mouseY, 50, 50);
@@ -27,7 +29,7 @@
    {
      colony[i].move();
      colony[i].show();
-     colony[i].change();
+     //colony[i].change();
    }
  }
  
@@ -38,22 +40,37 @@
    //contructor code
    int myX;
    int myY;
-   int myColor;
+   //int [] myColor;
+   int [] myColor = {color(255,0,0),color(255,255,255)};
+   int chooseColor;
    int mySize;
+   boolean alive;
    Bacteria(int x, int y)
    {
+     alive = true;
      myX = x;
      myY = y;
-     myColor = color((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
-     mySize = (int)(Math.random()*6)+1;
+     chooseColor = (int)(Math.random()*2);
+     mySize = (int)(Math.random()*16)+5;
    }
 
    //show function for the bacteria
    void show()
    {
+
+   	if(get(myX, myY) == color(255,255,255))
+   	{
+   		mySize += 5;
+   		alive = false;
+   	}
+
+   	if( alive == true)
+   	{
      noStroke();
-     fill(myColor);
+     fill(myColor[chooseColor]);
      ellipse(myX,myY,mySize,mySize);
+   	}
+
    }
    //random walk for bacteria
    void move()
@@ -76,37 +93,34 @@
      {
        myY = myY - 20;
      }     
-     /*
-     if( mouseX > myX)
+     
+     if( mouseX > myX && mousePressed)
      {
        myX = myX + (int)(Math.random()*5)-1;
      }
-     if( mouseX < myX)
+     if( mouseX < myX && mousePressed)
      {
        myX = myX + (int)(Math.random()*3)-2;
      }
-     if( mouseY > myY)
+     if( mouseY > myY && mousePressed)
      {
        myY = myY + (int)(Math.random()*5)-1;
      }
-     if( mouseY < myY)
+     if( mouseY < myY && mousePressed)
      {
        myY = myY + (int)(Math.random()*3)-2;
      }
-     */
+     
      
    }
+
+/*
    void change()
    {
-     
-     if(mousePressed)
+          
+     if(get(myX + 5 + mySize/2,myY + 5 + mySize/2) != color(0) && (myX + 5 + mySize/2) < 595 && (myY + 5 + mySize/2) < 595 && (myX + 5 + mySize/2) > 5 && (myY + 5 + mySize/2) > 5)
      {
-       mySize = (int)(Math.random()*6)+1;
-     }
-       
-     if(get(myX + 5 + mySize/2,myY + 5 + mySize/2) != color(0))
-     {
-       mySize = mySize + 1;
+       mySize = mySize + 2;
        int moveDir = (int)(Math.random()*4)+1;
        
        if( moveDir == 1)
@@ -128,5 +142,7 @@
        
      }
    }
+ */
 
  }    
+
